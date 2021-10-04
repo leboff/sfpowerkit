@@ -132,8 +132,10 @@ export default class Deactivate extends SfdxCommand {
 
       if (isJsonArray(retrieve_matchingRule.MatchingRules.matchingRules)) {
         retrieve_matchingRule.MatchingRules.matchingRules.forEach(element => {
-          element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
-          element.ruleStatus = "Inactive";
+          if(element.ruleStatus !== 'Activating'){
+            element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
+            element.ruleStatus = "Inactive";
+          }
         });
       } else {
         if (

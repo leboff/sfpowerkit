@@ -134,8 +134,10 @@ export default class Activate extends SfdxCommand {
       this.ux.log(`Preparing Activation`);
       if (isJsonArray(retrieve_matchingRule.MatchingRules.matchingRules)) {
         retrieve_matchingRule.MatchingRules.matchingRules.forEach(element => {
-          element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
-          element.ruleStatus = "Active";
+          if(element.ruleStatus !== 'Activating'){
+            element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
+            element.ruleStatus = "Active";
+          }
         });
       } else {
         retrieve_matchingRule.MatchingRules.matchingRules.ruleStatus = "Active";
