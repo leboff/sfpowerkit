@@ -131,8 +131,11 @@ export default class Deactivate extends SfdxCommand {
       this.ux.log(`Retrieved Matching Rule  for Object : ${this.flags.name}`);
 
       if (isJsonArray(retrieve_matchingRule.MatchingRules.matchingRules)) {
-        retrieve_matchingRule.MatchingRules.matchingRules.forEach(element => {
+        retrieve_matchingRule.MatchingRules.matchingRules.forEach((element, idx)=> {
           if(element.ruleStatus !== 'Activating'){
+            delete retrieve_matchingRule.MatchingRules.matchingRules[idx];
+          }
+          else{
             element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
             element.ruleStatus = "Inactive";
           }

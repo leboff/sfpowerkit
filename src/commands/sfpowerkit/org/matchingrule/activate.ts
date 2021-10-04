@@ -133,8 +133,11 @@ export default class Activate extends SfdxCommand {
       //Deactivate Rule
       this.ux.log(`Preparing Activation`);
       if (isJsonArray(retrieve_matchingRule.MatchingRules.matchingRules)) {
-        retrieve_matchingRule.MatchingRules.matchingRules.forEach(element => {
+        retrieve_matchingRule.MatchingRules.matchingRules.forEach((element, idx)=> {
           if(element.ruleStatus !== 'Activating'){
+            delete retrieve_matchingRule.MatchingRules.matchingRules[idx];
+          }
+          else{
             element.fullName = element.fullName.replace(/^([^_]+)__([^_]+)/, '$2');
             element.ruleStatus = "Active";
           }
